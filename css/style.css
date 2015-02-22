@@ -1,3 +1,9 @@
 body {
     text-align: center;
 }
+
+#jewel {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 150%;
+	color: green;
+}
