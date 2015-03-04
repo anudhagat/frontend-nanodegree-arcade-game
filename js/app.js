@@ -1,12 +1,12 @@
 //Constants used to image size and row positions of player and enemy
 var IMAGE_SIZE = 101;
 
-var PLAYER_START_ROW = 400;
-var PLAYER_START_PLUS_ONE = 319;
-var PLAYER_ENEMY_ROW_ONE = 238;
-var PLAYER_ENEMY_ROW_TWO = 157;
-var PLAYER_ENEMY_ROW_THREE = 76;
-var PLAYER_END_ROW = -5;
+var PLAYER_START_COLUMN = 202;
+var PLAYER_START_ROW = 405;
+var PLAYER_ENEMY_ROW_ONE = 243;
+var PLAYER_ENEMY_ROW_TWO = 162;
+var PLAYER_ENEMY_ROW_THREE = 81;
+var PLAYER_END_ROW = 0;
 
 var FIRST_ROW_BUG = 65;
 var SECOND_ROW_BUG = 146;
@@ -107,8 +107,8 @@ var Player = function() {
     this.sprite = playerSprites[Math.floor(Math.random()*playerSprites.length)];
 
     //Default start position
-    this.startX = 202;
-    this.startY = 400;
+    this.startX = PLAYER_START_COLUMN;
+    this.startY = PLAYER_START_ROW;
     this.reached = false;
 
     //current position is stored is x, y: initialized to start positions
@@ -202,7 +202,7 @@ Player.prototype.handleInput = function(keyCode) {
     }
 
     //if moving down and not at bottom square, update this.y and redraw
-    if( (keyCode == 'down') && (this.y != 400)) {
+    if( (keyCode == 'down') && (this.y != PLAYER_START_ROW)) {
         this.y= this.y +81;
         this.update();
         this.render();
