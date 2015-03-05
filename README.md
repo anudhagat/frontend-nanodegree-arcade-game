@@ -1,27 +1,42 @@
-++++++++++++++++
-+ Frogger Game +
-++++++++++++++++
 
-Object of the Game:
--------------------
-To get your player from the safety of the green grass to the cool blue water.
-
-Dangers:
----------
-Between the grass and the water lies a trecherous path the player must cross.
-The path is crawling with dangerous bugs. If the player collides with a bug, the player is sent back
-to the original start position and you will get a randomly selected new kind of player.
-The gem is also now found in a new location.
-
-Moving Keys:
+Frogger Game
 ------------
-To move your player, use the up, down, right or left arrow keys.
+Download: Go to this website https://github.com/anudhagat/frontend-nanodegree-arcade-game.
+On the right hand side in the middle of the page, find and click on the Download Zip button.
+This will copy a zipped version onto your local computer. Unzip the files and open the file
+index.html in your browser.
+
+Game Board
+-----------
+When the index.html file is opened on your browser, you see a player that is in a grid of
+5 by 6 squares. The player is on the green grass squares (1st row, 3rd square) in the begin position.
+There are two rows of green grass which are safe for the player to move around in. The topmost
+row in the game board is water and it is also safe ground for the player. The object of this game
+is to move the player from the green grass rows to the water row.
+
+Moving the Player
+-----------------
+Up Arrow Key: Moves the player up the squares.
+Down Arrow Key: Moves the player down the squares.
+Right Arrow Key: Moves the player to the right.
+Left Arrow Key: Moves the player to the left.
+
+
+Bugs:
+---------
+Between the grass and the water rows are three rows with bug traffic. If the player lands in the same
+space as a bug, the player is sent back to the original start position (row 1, column 3). When the game is
+reset in this way, you will see a randomly selected new kind of player. The different kinds of players are:
+Boy, Cat Girl, Horn Girl, Pink Girl, and Princess.
 
 Jewels:
 -------
-Your player can collect jewels along the way. A score of your collected jewels is shown at the bottom.
+Your player can collect jewels along the way by landing in a square with a jewel. A score of your
+collected jewels is shown at the bottom of the game board. If the player collected a jewel and then collided
+with a bug, the jewel score will be incremented and then the player will be sent back to the original start
+position. A new jewel will appear in a randomly selected new location.
 
 Game Reset:
 -----------
-Once the player reaches the water, the player and gem positions are reset. You get a randomly selected
-new kind of player.
+Once the player reaches the water, the player and jewel positions are reset. You get a randomly selected
+new kind of player and a randomly selected jewel position.
