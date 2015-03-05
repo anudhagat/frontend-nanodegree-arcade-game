@@ -21,6 +21,11 @@ var jewelPoints = 0;
 var gemSprites = ['images/GemBlue.png','images/GemOrange.png', 'images/GemGreen.png'];
 var playerSprites = ['images/char-boy.png', 'images/char-cat-girl.png', 'images/char-horn-girl.png', 'images/char-pink-girl.png', 'images/char-princess-girl.png'];
 
+/** Variables for sounds used in the game. */
+var successSnd = new Audio('sounds/success.wav');
+var bugSnd = new Audio('sounds/bugEat.wav');
+var gemSnd = new Audio('sounds/chime.wav');
+
 /**
  * Creates an instance of object Gem.
  * @constructor
@@ -63,7 +68,10 @@ Gem.prototype.render = function() {
 Gem.prototype.update = function(dt) {
 
     /** if the player lands on the Gem space */
-    if ((this.x == player.x) && (this.y == player.y) ){
+    if ((this.x == player.x) && (this.y == player.y) ) {
+
+        /** Play a chime sound to signify that gem has been collected. */
+        gemSnd.play();
         /** Place the gem off the game board, not visible.*/
         this.x = -100;
         this.y = -100;
@@ -92,8 +100,8 @@ var Enemy = function(startX, startY) {
     this.x = this.startX;
     this.y = this.startY;
 
-    /** Set a random speed between 50 and 200. */
-    this.speed = Math.floor((Math.random() * 200) + 50);
+    /** Set a random speed between 10 and 55. */
+    this.speed = Math.floor((Math.random() * 55) + 10);
 
     /** The image/sprite for our enemies, this uses helper.js to easily load images. */
     this.sprite = 'images/enemy-bug.png';
@@ -109,7 +117,7 @@ Enemy.prototype.update = function(dt) {
     /** if you reach the end of canvas, reset the bug's start position and generate another random speed*/
     if (this.x > 500){
         this.x = this.startX;
-        this.speed = Math.floor((Math.random() * 200) + 50);
+        this.speed = Math.floor((Math.random() * 55) + 10);
     }
     /** if not at the end of canvas, move it forward in the x direction. Multiply any movement by the dt parameter
     which will ensure the game runs at the same speed for all computers. */
@@ -156,8 +164,9 @@ var Player = function() {
 Player.prototype.update = function(dt) {
 
     /** If player has reached the other side the road, reset to begin position. */
-    if (this.reached == true){
-        this.render();
+    if (this.reached == true) {
+        successSnd.play();
+        //this.render();
         this.restart();
     }
 
@@ -166,31 +175,37 @@ Player.prototype.update = function(dt) {
      * collision, then restart the game.
      */
     if (this.y == PLAYER_ENEMY_ROW_THREE) {
-        if((this.x > enemyBug1.x - IMAGE_SIZE) && ( this.x < enemyBug1.x + IMAGE_SIZE)){
-                this.restart();
+        if((this.x > enemyBug1.x - IMAGE_SIZE) && ( this.x < enemyBug1.x + IMAGE_SIZE)) {
+            bugSnd.play();
+            this.restart();
             }
-        if((this.x > enemyBug2.x - IMAGE_SIZE) && ( this.x < enemyBug2.x + IMAGE_SIZE)){
-                this.restart();
+        if((this.x > enemyBug2.x - IMAGE_SIZE) && ( this.x < enemyBug2.x + IMAGE_SIZE)) {
+            bugSnd.play();
+            this.restart();
             }
     }
 
     /** Do similar check with Row 2 */
     if (this.y == PLAYER_ENEMY_ROW_TWO) {
-        if((this.x > enemyBug3.x - IMAGE_SIZE) && ( this.x < enemyBug3.x + IMAGE_SIZE)){
-                this.restart();
+        if((this.x > enemyBug3.x - IMAGE_SIZE) && ( this.x < enemyBug3.x + IMAGE_SIZE)) {
+            bugSnd.play();
+            this.restart();
             }
-        if((this.x > enemyBug4.x - IMAGE_SIZE) && ( this.x < enemyBug4.x + IMAGE_SIZE)){
-                this.restart();
+        if((this.x > enemyBug4.x - IMAGE_SIZE) && ( this.x < enemyBug4.x + IMAGE_SIZE)) {
+            bugSnd.play();
+            this.restart();
             }
     }
 
     /** Do similar check with Row 1 */
     if (this.y == PLAYER_ENEMY_ROW_ONE) {
-        if((this.x > enemyBug5.x - IMAGE_SIZE) && ( this.x < enemyBug5.x + IMAGE_SIZE)){
-                this.restart();
+        if((this.x > enemyBug5.x - IMAGE_SIZE) && ( this.x < enemyBug5.x + IMAGE_SIZE)) {
+            bugSnd.play();
+            this.restart();
             }
-        if((this.x > enemyBug6.x - IMAGE_SIZE) && ( this.x < enemyBug6.x + IMAGE_SIZE)){
-                this.restart();
+        if((this.x > enemyBug6.x - IMAGE_SIZE) && ( this.x < enemyBug6.x + IMAGE_SIZE)) {
+            bugSnd.play();
+            this.restart();
             }
     }
 
@@ -223,18 +238,17 @@ Player.prototype.render = function() {
  */
 Player.prototype.handleInput = function(keyCode) {
 
-    /** If the player's y coordinate is at the top row, mark the player as having reached the other side.*/
     if (this.y == PLAYER_END_ROW)
         this.reached = true;
 
     /** If moving left and not at leftmost square, update this.x and redraw.*/
-    if( (keyCode == 'left') && (this.x != 0)){
+    if( (keyCode == 'left') && (this.x != 0)) {
         this.x= this.x -101;
         this.update();
         this.render();
     }
     /** If moving right and not at rightmost square, update this.x and redraw.*/
-    if( (keyCode == 'right') && (this.x != 404 )){
+    if( (keyCode == 'right') && (this.x != 404 )) {
         this.x= this.x +101;
         this.update();
         this.render();
@@ -243,9 +257,15 @@ Player.prototype.handleInput = function(keyCode) {
     /** If moving up and not at top square, update this.y and redraw.
      * If moving up and you are at the top, set reached value to true.
      */
-    if ( (keyCode == 'up') && (this.y != PLAYER_END_ROW) ) {
+    if (keyCode == 'up') {
+        if( this.y == PLAYER_END_ROW ) {
+            this.reached = true;
+            //successSnd.play();
+        }
+        else {
             this.y= this.y -81;
             this.render();
+        }
     }
 
     /** If moving down and not at bottom square, update this.y and redraw. */
