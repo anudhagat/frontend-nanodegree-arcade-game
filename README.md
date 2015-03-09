@@ -40,3 +40,14 @@ Game Reset:
 -----------
 Once the player reaches the water, the player and jewel positions are reset. You get a randomly selected
 new kind of player and a randomly selected jewel position.
+
+Sounds:
+-------
+I added three sounds to the game. When the player lands in the same square as a bug, a sound is made before the
+player is reset to the start position. When the player collects a gem, a chime sound is made. Finally, when the
+player is reset after reaching the water squares, a success chime is made.
+
+Bug Fixes:
+----------
+When the princess player reaches the top, part of her crown gets painted outside the game board. Fixed: by
+repositioning the player inside the square.

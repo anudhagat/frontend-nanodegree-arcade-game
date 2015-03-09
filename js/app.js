@@ -163,16 +163,15 @@ var Player = function() {
  */
 Player.prototype.update = function(dt) {
 
-    /** If player has reached the other side the road, reset to begin position. */
+    /** If player has reached the other side the road, reset to begin position, play success sound. */
     if (this.reached == true) {
         successSnd.play();
-        //this.render();
         this.restart();
     }
 
     /** There are two bugs travelling on Row three of the road: enemyBug1 and enemyBug2.
      * Check to see if the player is overlapping with these bugs. If there is a
-     * collision, then restart the game.
+     * collision, play the bug collision sound, then restart the game.
      */
     if (this.y == PLAYER_ENEMY_ROW_THREE) {
         if((this.x > enemyBug1.x - IMAGE_SIZE) && ( this.x < enemyBug1.x + IMAGE_SIZE)) {
@@ -260,7 +259,6 @@ Player.prototype.handleInput = function(keyCode) {
     if (keyCode == 'up') {
         if( this.y == PLAYER_END_ROW ) {
             this.reached = true;
-            //successSnd.play();
         }
         else {
             this.y= this.y -81;
