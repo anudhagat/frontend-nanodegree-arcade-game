@@ -3,18 +3,16 @@
  */
 
 /** Constants used for image size and row positions of player and enemy.*/
-var IMAGE_SIZE = 101;
+var IMAGE_SIZE = 101,
+    PLAYER_START_COLUMN = 202,
+    PLAYER_START_ROW = 405,
+    PLAYER_ENEMY_ROW_ONE = 243,
+    PLAYER_ENEMY_ROW_TWO = 162;
+    PLAYER_ENEMY_ROW_THREE = 81,
 
-var PLAYER_START_COLUMN = 202;
-var PLAYER_START_ROW = 405;
-var PLAYER_ENEMY_ROW_ONE = 243;
-var PLAYER_ENEMY_ROW_TWO = 162;
-var PLAYER_ENEMY_ROW_THREE = 81;
-var PLAYER_END_ROW = 81;
-
-var FIRST_ROW_BUG = 65;
-var SECOND_ROW_BUG = 146;
-var THIRD_ROW_BUG = 227;
+    FIRST_ROW_BUG = 65,
+    SECOND_ROW_BUG = 146,
+    THIRD_ROW_BUG = 227;
 
 /** Variables for total jewel score and sprites for gem and player. */
 var jewelPoints = 0;
@@ -244,7 +242,7 @@ Player.prototype.handleInput = function(keyCode) {
      * If moving up and you are at the top, play success sound and restart.
      */
     if (keyCode == 'up') {
-        if( this.y == PLAYER_END_ROW ) {
+        if( this.y == PLAYER_ENEMY_ROW_THREE ) {
             successSnd.play();
             this.restart();
         }
