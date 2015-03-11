@@ -10,7 +10,7 @@ var PLAYER_START_ROW = 405;
 var PLAYER_ENEMY_ROW_ONE = 243;
 var PLAYER_ENEMY_ROW_TWO = 162;
 var PLAYER_ENEMY_ROW_THREE = 81;
-var PLAYER_END_ROW = 0;
+var PLAYER_END_ROW = 81;
 
 var FIRST_ROW_BUG = 65;
 var SECOND_ROW_BUG = 146;
@@ -36,7 +36,7 @@ var Gem = function() {
     this.newPosition();
     this.sprite = gemSprites[Math.floor(Math.random()*gemSprites.length)];
 
-}
+};
 
 /** This function sets the postion of the gem by selecting a random row and column.
  * @this {Gem}
@@ -48,10 +48,10 @@ Gem.prototype.newPosition = function() {
     /** Select a random number between 0 and 5 and multiply it by row width of 101*/
     this.x = Math.floor(Math.random()*5)*101;
 
-    /** Select a random number between 0 and 3, since there are 3 rows of road/rock and multiply it by row height of 83 */
-    this.y = PLAYER_ENEMY_ROW_THREE + Math.floor(Math.random()*3)*81;
+    /** Select a random number between 0 and 2, since there are 3 rows of road/rock and multiply it by row height of 81 */
+    this.y = PLAYER_ENEMY_ROW_THREE + Math.floor(Math.random()*2)*81;
 
-}
+};
 
 /** This function draws the gem on the screen, required method for game.
  * @this {Gem}
@@ -59,7 +59,7 @@ Gem.prototype.newPosition = function() {
 Gem.prototype.render = function() {
 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 /** This function redraws the gem off the board if the player lands in the same square as the gem.
  * @param {number} dt: A time delta between ticks.
@@ -81,7 +81,7 @@ Gem.prototype.update = function(dt) {
         $('#jewel').text('Jewel Points: ' + jewelPoints.toString());
     }
 
-}
+};
 
 /**
  * Creates an instance of object Enemy.
@@ -106,7 +106,7 @@ var Enemy = function(startX, startY) {
     /** The image/sprite for our enemies, this uses helper.js to easily load images. */
     this.sprite = 'images/enemy-bug.png';
 
-}
+};
 
 /** This function updates the enemy's position, required method for game.
  * @param {number} dt A time delta between ticks
@@ -124,7 +124,7 @@ Enemy.prototype.update = function(dt) {
     else
         this.x = this.x + this.speed*dt;
 
-}
+};
 
 /** This function draws the enemy on the screen, required method for game
  * @this {Enemy}
@@ -133,7 +133,7 @@ Enemy.prototype.render = function() {
 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
-}
+};
 
 /**
  * Creates an instance of object Player.
@@ -148,26 +148,17 @@ var Player = function() {
     this.startX = PLAYER_START_COLUMN;
     this.startY = PLAYER_START_ROW;
 
-    /** Set the boolean variable that keeps track of whether the player has reached the water. */
-    this.reached = false;
-
     /** Set the current position of the player and initialize to start positions. */
     this.x = this.startX;
     this.y = this.startY;
 
-}
+};
 
 /** This function updates the player's position, required method for game.
  * @param {number} dt a time delta between ticks
  * @this {Player}
  */
 Player.prototype.update = function(dt) {
-
-    /** If player has reached the other side the road, reset to begin position, play success sound. */
-    if (this.reached == true) {
-        successSnd.play();
-        this.restart();
-    }
 
     /** There are two bugs travelling on Row three of the road: enemyBug1 and enemyBug2.
      * Check to see if the player is overlapping with these bugs. If there is a
@@ -208,9 +199,9 @@ Player.prototype.update = function(dt) {
             }
     }
 
-}
+};
 
-/** This function places the player at the begin position and resets the reached boolean variable.
+/** This function places the player at the begin position.
  * Also randomly selects a different player sprite.
  * @this {Player}
  */
@@ -219,9 +210,8 @@ Player.prototype.restart = function() {
     this.x=this.startX;
     this.y=this.startY;
     this.sprite = playerSprites[Math.floor(Math.random()*playerSprites.length)];
-    this.reached = false;
     gem.newPosition();
-}
+};
 
 /** This function draws the player on the screen, required method for game
  * @this {Player}
@@ -230,18 +220,15 @@ Player.prototype.render = function() {
 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
-}
+};
 
 /** This function handles the movement of the player on the game board, given the keyboard input keyCode.
  * @this {Player}
  */
 Player.prototype.handleInput = function(keyCode) {
 
-    if (this.y == PLAYER_END_ROW)
-        this.reached = true;
-
     /** If moving left and not at leftmost square, update this.x and redraw.*/
-    if( (keyCode == 'left') && (this.x != 0)) {
+    if( (keyCode == 'left') && (this.x !== 0)) {
         this.x= this.x -101;
         this.update();
         this.render();
@@ -254,11 +241,12 @@ Player.prototype.handleInput = function(keyCode) {
     }
 
     /** If moving up and not at top square, update this.y and redraw.
-     * If moving up and you are at the top, set reached value to true.
+     * If moving up and you are at the top, play success sound and restart.
      */
     if (keyCode == 'up') {
         if( this.y == PLAYER_END_ROW ) {
-            this.reached = true;
+            successSnd.play();
+            this.restart();
         }
         else {
             this.y= this.y -81;
@@ -272,7 +260,7 @@ Player.prototype.handleInput = function(keyCode) {
         this.update();
         this.render();
     }
-}
+};
 
 /** Instantiate 6 bugs, 2 in each row with bugs. */
 var enemyBug1 = new Enemy(-10, FIRST_ROW_BUG);
